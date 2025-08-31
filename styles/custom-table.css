@@ -1,0 +1,24 @@
+.custom-table-slider::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+}
+
+.custom-table-slider::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 9999px;
+}
+
+.custom-table-slider::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 9999px;
+  border: 2px solid #2d2d2d;
+}
+
+.custom-table-slider::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+.custom-table-slider {
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 #2d2d2d;
+}

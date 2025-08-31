@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  password_hash String
+  role          Role         @default(VIEWER)
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  influencers   Influencer[]
+
+  @@map("users")
+}
+
+model Influencer {
+  id              String   @id @default(cuid())
+  name            String
+  platform        Platform
+  username        String
+  followers       Int
+  engagement_rate Decimal  @db.Decimal(5, 2)
+  country         String   @db.VarChar(2)
+  categories      String[]
+  email           String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  createdBy   User?   @relation(fields: [createdById], references: [id])
+  createdById String?
+
+  @@unique([platform, username])
+  @@index([platform])
+  @@index([followers])
+  @@index([engagement_rate])
+  @@index([country])
+  @@map("influencers")
+}
+
+enum Role {
+  ADMIN
+  VIEWER
+}
+
+enum Platform {
+  INSTAGRAM
+  TIKTOK
+  YOUTUBE
+  X
+}
