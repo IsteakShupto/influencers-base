@@ -6,6 +6,7 @@
 //   req: NextRequest,
 //   { params }: { params: { id: string } }
 // ) {
+
 //   const user = await getCurrentUser(req);
 //   if (!user)
 //     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
@@ -63,15 +64,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 
-type RouteContext = {
-  params: { id: string };
-};
-
 export async function GET(
   req: NextRequest,
-  context: RouteContext
-): Promise<NextResponse> {
-  const { id } = context.params;
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   const user = await getCurrentUser(req);
   if (!user)
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
@@ -85,9 +82,9 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: RouteContext
-): Promise<NextResponse> {
-  const { id } = context.params;
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   const user = await getCurrentUser(req);
   if (!user || user.role !== "ADMIN")
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
@@ -103,18 +100,26 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: RouteContext
-): Promise<NextResponse> {
-  const { id } = context.params;
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   const user = await getCurrentUser(req);
   if (!user || user.role !== "ADMIN")
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
   try {
-    await prisma.influencer.delete({ where: { id } });
+    await prisma.influencer.delete({
+      where: { id },
+    });
+
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Delete failed" }, { status: 400 });
+    console.log(error);
+    return NextResponse.json(
+      {
+        error: "Delete failed",
+      },
+      { status: 400 }
+    );
   }
 }
