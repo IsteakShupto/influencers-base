@@ -6,7 +6,7 @@ A full-stack mini web application built with **Next.js (App Router)**, **Postgre
 
 ## Live web application link
 
-- [Click here]() to view the live web application.
+- [Click here](https://influencers-base.vercel.app/) to view the live web application.
 
 ## Features
 
