@@ -58,8 +58,8 @@ A full-stack mini web application built with **Next.js (App Router)**, **Postgre
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/influencer-directory.git
-cd influencer-directory
+git clone https://github.com/IsteakShupto/influencers-base
+cd influencers-base
 ```
 
 ### 2. Install dependencies
